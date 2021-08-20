@@ -3,7 +3,7 @@ import './App.css';
 import { API } from 'aws-amplify';
 import { withAuthenticator, AmplifySignOut } from '@aws-amplify/ui-react';
 import { listNotes } from './graphql/queries';
-import { createNote as createNoteMutation, deleteNote as deleteNoteMutation, markNote as markNoteMutation } from './graphql/mutations';
+import { createNote as createNoteMutation, deleteNote as deleteNoteMutation, viewNote as viewNoteMutation } from './graphql/mutations';
 
 const initialFormState = { name: '', description: '' }
 
@@ -33,10 +33,10 @@ function App() {
     await API.graphql({ query: deleteNoteMutation, variables: { input: { id } }});
   }
 
-  async function markNote({ id }) {
-    const newNotesArray = notes.filter(note => note.id == id);
+  async function viewNote({ id }) {
+    const newNotesArray = notes.filter(note => note.id === id);
     setNotes(newNotesArray);
-    await API.graphql({ query: markNoteMutation, variables: { input: { id } }});
+    await API.graphql({ query: viewNoteMutation, variables: { input: { id } }});
   }
 
   async function shuffleNote() {
@@ -73,10 +73,9 @@ function App() {
           notes.map(note => (
             // <div key={note.id || note.name}>
               <tr>
-                <td width="100"><h4>{note.name}</h4></td>
+                <td width="100"><a href="#" onClick={() => viewNote(note)}>{note.name}</a></td>
                 <td width="400"><p>{note.description}</p></td>
                 <td width="100"><button onClick={() => deleteNote(note)}>Delete note</button></td>
-                <td width="100"><button onClick={() => markNote(note)}>Mark note</button></td>
               </tr>
             // </div>
           ))

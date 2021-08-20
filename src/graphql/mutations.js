@@ -29,12 +29,12 @@ export const updateNote = /* GraphQL */ `
     }
   }
 `;
-export const markNote = /* GraphQL */ `
-  mutation MarkNote(
-    $input: MarkNoteInput!
+export const viewNote = /* GraphQL */ `
+  mutation ViewNote(
+    $input: ViewNoteInput!
     $condition: ModelNoteConditionInput
   ) {
-    markNote(input: $input, condition: $condition) {
+    viewNote(input: $input, condition: $condition) {
       id
       name
       description

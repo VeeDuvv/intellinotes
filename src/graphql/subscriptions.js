@@ -23,9 +23,9 @@ export const onUpdateNote = /* GraphQL */ `
     }
   }
 `;
-export const onMarkNote = /* GraphQL */ `
-  subscription OnMarkNote {
-    onMarkNote {
+export const onViewNote = /* GraphQL */ `
+  subscription OnViewNote {
+    onViewNote {
       id
       name
       description
