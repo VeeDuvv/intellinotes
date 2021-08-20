@@ -3,7 +3,7 @@ import './App.css';
 import { API } from 'aws-amplify';
 import { withAuthenticator, AmplifySignOut } from '@aws-amplify/ui-react';
 import { listNotes } from './graphql/queries';
-import { createNote as createNoteMutation, deleteNote as deleteNoteMutation } from './graphql/mutations';
+import { createNote as createNoteMutation, deleteNote as deleteNoteMutation, markNote as markNoteMutation } from './graphql/mutations';
 
 const initialFormState = { name: '', description: '' }
 
@@ -33,9 +33,19 @@ function App() {
     await API.graphql({ query: deleteNoteMutation, variables: { input: { id } }});
   }
 
+  async function markNote({ id }) {
+    const newNotesArray = notes.filter(note => note.id == id);
+    setNotes(newNotesArray);
+    await API.graphql({ query: markNoteMutation, variables: { input: { id } }});
+  }
+
+  async function shuffleNote() {
+    // await API.graphql({ query: deleteNoteMutation, variables: { }});
+  }
+
   return (
     <div className="App">
-      <h1>My Notes App</h1>
+      <h1>My Intelligent Notes</h1>
       <input
         onChange={e => setFormData({ ...formData, 'name': e.target.value})}
         placeholder="Note name"
@@ -47,16 +57,31 @@ function App() {
         value={formData.description}
       />
       <button onClick={createNote}>Create Note</button>
+      <br></br>
+      <br></br>
+      <button onClick={() => shuffleNote()}>Shuffle</button>
+      <br></br>
+      <br></br>
       <div style={{marginBottom: 30}}>
+        <table>
+          <tr>
+            <th width="100">Name</th>
+            <th width="400">Description</th>
+            <th width="100">Delete</th>
+          </tr>
         {
           notes.map(note => (
-            <div key={note.id || note.name}>
-              <h2>{note.name}</h2>
-              <p>{note.description}</p>
-              <button onClick={() => deleteNote(note)}>Delete note</button>
-            </div>
+            // <div key={note.id || note.name}>
+              <tr>
+                <td width="100"><h4>{note.name}</h4></td>
+                <td width="400"><p>{note.description}</p></td>
+                <td width="100"><button onClick={() => deleteNote(note)}>Delete note</button></td>
+                <td width="100"><button onClick={() => markNote(note)}>Mark note</button></td>
+              </tr>
+            // </div>
           ))
         }
+        </table>
       </div>
       <AmplifySignOut />
     </div>

@@ -29,6 +29,20 @@ export const updateNote = /* GraphQL */ `
     }
   }
 `;
+export const markNote = /* GraphQL */ `
+  mutation MarkNote(
+    $input: MarkNoteInput!
+    $condition: ModelNoteConditionInput
+  ) {
+    markNote(input: $input, condition: $condition) {
+      id
+      name
+      description
+      createdAt
+      updatedAt
+    }
+  }
+`;
 export const deleteNote = /* GraphQL */ `
   mutation DeleteNote(
     $input: DeleteNoteInput!

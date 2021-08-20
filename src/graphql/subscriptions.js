@@ -23,6 +23,17 @@ export const onUpdateNote = /* GraphQL */ `
     }
   }
 `;
+export const onMarkNote = /* GraphQL */ `
+  subscription OnMarkNote {
+    onMarkNote {
+      id
+      name
+      description
+      createdAt
+      updatedAt
+    }
+  }
+`;
 export const onDeleteNote = /* GraphQL */ `
   subscription OnDeleteNote {
     onDeleteNote {
